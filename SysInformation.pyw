@@ -186,7 +186,7 @@ def ViewData():
         LocalIPIndex+=6
         GatewayIPIndex+=6
         PublicIPIndex+=6
-        
+
         System="Hostname: {0}   Local IP: {1}   Gateway: {2}    Public IP: {3}  OS Version: {4}     Added By User: {5}".format(SystemHostname,SystemLocalIP,SystemGatewayIP,SystemPublicIP,SystemOSVersion,SystemUsername)
         print(System)
         CreateLabel(ViewDataWindow,System,StartRow,0,W)
@@ -251,10 +251,11 @@ def GraphGen():
     CurrentLocation='"{0}"'.format(os.getcwd())
     #print(CurrentLocation)
     os.popen("python {0}/NetworkDiagramGen.py".format(CurrentLocation))
-    #sleep(1)
     print(os.path.isfile(GetSetting("GraphLocation")))
+    loopcount=0
     while True:
         if os.path.isfile(GetSetting("GraphLocation")) == True:
+            sleep(5)
             break
         else:
             sleep(1)
