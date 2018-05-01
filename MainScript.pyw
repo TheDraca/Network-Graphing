@@ -253,18 +253,31 @@ def GraphGen():
     os.popen("python {0}/NetworkDiagramGen.py".format(CurrentLocation))
     print(os.path.isfile(GetSetting("GraphLocation")))
     loopcount=0
+
+    try:
+        if "Windows" in OS:
+            FileLastModified=os.path.getmtime(GetSetting("GraphLocation"))
+        else:
+            FileLastModified=os.stat(GetSetting("GraphLocation")).st_mtime
+    except:
+        print("Graph File wasn't found")
+        FileLastModified="404"
+
     while True:
         if os.path.isfile(GetSetting("GraphLocation")) == True:
-            sleep(5)
+            if "Windows" in OS:
+                CurrentLastModified=os.path.getmtime(GetSetting("GraphLocation"))
+            else:
+                CurrentLastModified=os.stat(GetSetting("GraphLocation")).st_mtime
+        else:
+            continue
+        
+        if CurrentLastModified != FileLastModified:
+            print("Graph has been updated!")
             break
         else:
-            sleep(1)
-            loopcount += 1
-            if loopcount == 6:
-                print("He's dead jim")
-                break
-            else:
-                pass
+            pass
+        
     try:
         import matplotlib.pyplot as plt
         import matplotlib.image as mpimg
@@ -279,9 +292,8 @@ def GraphGen():
         ErrorWindow=dialogwindow()
         CreateLabel(ErrorWindow, "ERROR, most likely missing dependecies (matplotlib/graphviz), install dependecies or run generator on configured system", 1, 0, N)
 
-
+        
 MainWindow = window()
-
 CreateLabel(MainWindow, "The Following Info will be stored in the database ({0}):".format(GetSetting("DatabaseLocation")), 1, 0, NW)
 
 ReportedInfo = GetInfo()
@@ -294,8 +306,6 @@ for I in ReportedInfo:
     CreateLabel(MainWindow, Item, StartRow, 0, NW)
     i += 1
     StartRow += 1
-
-
 
 CreateButton(MainWindow, "Add System to record",AddRecord, StartRow + 2, 0, N+S+E+W)
 CreateButton(MainWindow, "View existing systems",lambda: ViewData(), StartRow + 1, 0, NW)
@@ -310,5 +320,4 @@ CreateButton(MainWindow, "Run Graph Generation", lambda: GraphGen(),StartRow +1,
 ##CreateButton(MainWindow, "RM DB", debug_DeleteDatabase, StartRow + 1, 0, N)
 ##
 ##########
-
 MainWindow.mainloop()
