@@ -32,25 +32,12 @@ def GetValues(TableNames):
 TableNames = ["USERNAMES","OSVERSIONS","HOSTNAMES","LOCALIPS","GATEWAYIPS","PUBLICIPS"]
 GetValues(TableNames)
 
-#print(UsableData)
-#for i in UsableData:
-#    int(len(UsableData)/6)
-
-#UsableData[:int(len(UsableData)/6)]
-#UsableData[6:12]
 print("\n\n\n")
 def SortData(CollectedData=CollectedData):
     Start=0
     UsableData=[]
     NumberOfSystems = int(len(CollectedData)/6)
     for i in range(NumberOfSystems):
-        #SystemUsername=CollectedData[Start]
-        #SystemOSVer=CollectedData[Start+NumberOfSystems]
-        #SystemHostname=CollectedData[Start+NumberOfSystems*2]
-        #SystemLocalIP=CollectedData[Start+NumberOfSystems*3]
-        #SystemGatewayIP=CollectedData[Start+NumberOfSystems*4]
-        #SystemPublicIP=CollectedData[Start+NumberOfSystems*5]
-
         UsableData.append(CollectedData[Start]) #AddUsernames
         UsableData.append(CollectedData[Start+NumberOfSystems]) #Add OS Versions
         UsableData.append(CollectedData[Start+NumberOfSystems*2]) #Add Hostnames
